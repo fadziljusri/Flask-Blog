@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %} Blog Post {% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+        {% if action == "new" %}
+        <h3>New Blog Post</h3>
+        {% else %}
+        <h3>Edit Blog Post</h3>
+        {% endif %}
+        
+        {% from "_formhelpers.html" import render_field %}
+            {% if action == "new" %}
+            <form method="post" action="{{ url_for('post') }}" enctype="multipart/form-data" role="form">
+            {% else %}
+            <form method="post" action="{{ url_for('edit', post_id=post.id) }}" enctype="multipart/form-data" role="form">
+            {% endif %}
+                {{ form.hidden_tag() }}
+                
+                {{ render_field(form.title, class="form-control") }}
+                {{ render_field(form.image, class="form-control") }}
+                {% if post and post.image %}
+                <img src="{{ post.imgsrc }}" width="70%"></img>
+                {% endif %}
+                {{ render_field(form.body, class="form-control", rows=5) }}
+                {{ render_field(form.category, class="form-control") }}
+                {{ render_field(form.new_category, class="form-control") }}
+                
+                <button type="submit" class="btn btn-primary btn-block">
+                {% if action =="new" %}
+                Post
+                {% else %}
+                Update
+                {% endif %}
+                </button>
+                
+            </form>
+    </div>
+</div>
+{% endblock %}

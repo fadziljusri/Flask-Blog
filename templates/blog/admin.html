@@ -1,0 +1,52 @@
+{% extends "base.html" %} {% block title %} Blog Admin {% endblock %} {% block content %}
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+        <h4 class="pull-right">
+            Welcome, {{ session.username }}
+        </h4>
+        <h1>
+            <span>Admin's Blog</span>
+        </h1>
+        <hr>
+
+        {% include "_flashmessages.html" %}
+
+
+        <div class="post-list">
+            {% for post in posts.items %}
+            <div class="row post-item">
+                <div class="col-md-12">
+                    <h4>
+                        {% if post.image %}
+                        <img src="{{ post.imgsrc }}" style="height:30px;float:right;"/> {% endif %}
+                        <a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a>
+                        {% if not post.live %} (Deleted) {% endif %}
+                    </h4>
+                    <div class="text-muted">
+                        Posted by
+                        <a href="#">{{ post.author.fullname }}</a> on {{ post.publish_date.strftime('%Y-%m-%D') }} in
+                        <a href="#">{{ post.category.name }}</a>
+                    </div>
+                </div>
+                <!-- <div class="col-md-3">
+                    {% if post.image %}
+                    <img src="{{ post.imgsrc }}" style="width:50%;" class="img-rounded" /> {% endif %}
+                </div> -->
+            </div>
+            {% endfor %}
+        </div>
+        <div class="post-paginate">
+
+            {% if posts.has_prev %}
+            <div class="pull-left">
+                <a href="{{ url_for('admin', page=posts.prev_num) }}">&lt;&lt; Prev</a>
+            </div>
+            {% endif %} {% if posts.has_next %}
+            <div class="pull-right">
+                <a href="{{ url_for('admin', page=posts.next_num) }}">Next &gt;&gt;</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

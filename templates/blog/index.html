@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block title %} {{ blog.name }} {% endblock %} {% block content %}
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+
+        {% include "_flashmessages.html" %}
+
+        <h1>
+            <a href="{{ url_for('index') }}">{{ blog.name}}</a>
+        </h1>
+        <div class="post-list">
+            {% for post in posts.items %}
+            <div class="row post-item">
+                <div class="col-md-12">
+                    {% if post.image %}
+                    <img src="{{ post.imgsrc }}" style="height:30px;float:right;" /> {% endif %}
+                    <h4>
+                        <a href="{{ url_for('article', slug=post.slug) }}">{{ post.title }}</a>
+                    </h4>
+                    <div class="text-muted">
+                        Posted by
+                        <a href="#">{{ post.author.fullname }}</a> on {{ post.publish_date.strftime('%Y-%m-%D') }} in
+                        <a href="#">{{ post.category.name }}</a>
+                    </div>
+                </div>
+                <!-- <div class="col-md-3">
+                    {% if post.image %}
+                    <img src="{{ post.imgsrc }}" width="100%"  class="img-rounded"/>
+                    {% endif %}
+                </div> -->
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="post-paginate">
+
+            {% if posts.has_prev %}
+            <div class="pull-left">
+                <a href="{{ url_for('index', page=posts.prev_num) }}">&lt;&lt; Prev</a>
+            </div>
+            {% endif %} {% if posts.has_next %}
+            <div class="pull-right">
+                <a href="{{ url_for('index', page=posts.next_num) }}">Next &gt;&gt;</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

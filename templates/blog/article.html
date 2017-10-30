@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %} {{ post.title }} {% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+    {% if post.image %}
+    <center><img src="{{ post.imgsrc }}" width="70%"></img></center>
+    {% endif %}
+    <h3>{{ post.title}}</h3>
+    
+    {% if session.get('is_author') %}
+    <p>
+        <a href="{{ url_for('edit', post_id = post.id)}}">Edit</a>
+        -
+        <a href="{{ url_for('delete', post_id=post.id)}}">Delete</a>
+    </p>
+    {% endif %}
+    
+    {{ post.body }}
+    <hr/>
+    <div class="text-muted">
+        Posted by <a href="#">{{ post.author.fullname }}</a> on {{ post.publish_date.strftime('%Y-%m-%d') }} in <a href="#">{{ post.category.name }}</a> .
+    </div>
+    </div>
+</div>
+{% endblock %}

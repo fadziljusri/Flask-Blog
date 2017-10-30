@@ -1,0 +1,8 @@
+html{
+    padding: 20px;
+    /*margin:10px;*/
+}
+input[type=file]{
+    width: 100%;
+    outline:none
+}
